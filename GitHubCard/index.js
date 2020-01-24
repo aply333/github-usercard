@@ -2,6 +2,16 @@
            (replacing the palceholder with your Github name):
            https://api.github.com/users/<your name>
 */
+axios
+  .get("https://api.github.com/users/tetondan/followers")
+  .then(response =>{
+    console.log(response);
+  })
+  .catch(err => {
+    console.log(err);
+  });
+
+let testData = axios.get("https://api.github.com/users/aply333");
 
 /* Step 2: Inspect and study the data coming back, this is YOUR 
    github info! You will need to understand the structure of this 
@@ -53,3 +63,36 @@ const followersArray = [];
   luishrd
   bigknell
 */
+
+function cardCreator (item){
+  let div = document.createElement('div');
+  div.classList.add('card');
+
+
+  let divInfo = document.createElement('div');
+  divInfo.classList.add('card-info');
+    let name =document.createElement('h3');
+      name.classList.add('name');
+      name.classList.textContent = item.name;
+      div.appendChild(name);
+    let pUser = document.createElement('p');
+      pUser.classList.add('username');
+      pUser.textContent = item.username;
+      div.appendChild(pUser);
+    let pLocation = document.createElement('p')
+      pLocation.textContent = `Location:${item.location}`;
+      div.appendChild(pLocation);
+    let pProfile = document.createElement('p');
+    let aProLink = document.createElement('a');
+      pProfile.textContent = `Profile:${aProLink}`;
+      div.appendChild(pProfile);
+    let followers = document.createElement('p');
+      followers.textContent = `Followers: ${items.followers}`;
+      div.appendChild(followers);
+    let following = document.createElement('p');
+      following.textContent = `Following: ${items.following}`;
+      div.appendChild(following);
+    let bio = document.createElement('p');
+      bio.textContent = `Bio: ${items.bio}`;
+      div.appendChild(bio);
+}
