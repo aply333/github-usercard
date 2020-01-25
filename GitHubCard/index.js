@@ -11,18 +11,42 @@
 //     console.log(err);
 //   });
 
-let testArray = []
 
-let testData = axios.get("https://api.github.com/users/bigknell");
-testData.then(response =>{
-  console.log('res',response);
-  console.log('login',response.data.followers)
-  testArray.push(response.data);
-});
 
-let testVar = testData.then(response =>{
-  return response.data.followers;
-})
+
+
+// Attempt One -- 
+
+// let testArray = []
+
+// let testData = axios.get("https://api.github.com/users/bigknell");
+// testData.then(response =>{
+//   console.log('res',response);
+//   console.log('login',response.data.followers)
+//   testArray.push(response.data);
+// });
+
+// let testVar = testData.then(response =>{
+//   return response.data.followers;
+// })
+
+// Attempt 2 -- following https://www.youtube.com/watch?v=6LyagkoRWYA what i learn from there.
+
+// let source = 'https://api.github.com/users/bigknell';
+
+// function getGitHubData (link){
+//   array = []
+//   axios
+//   .get(source)
+//   .then( res => array.push(res))
+//   .catch(err => console.log(err));
+//   return array
+// }
+
+// let testArray = getGitHubData(source)
+// console.log(testArray.login)
+
+
 
 /* Step 2: Inspect and study the data coming back, this is YOUR 
    github info! You will need to understand the structure of this 
@@ -45,7 +69,14 @@ let testVar = testData.then(response =>{
           user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+const followersArray = [
+  'aply333',
+  'tetondan',
+  'dustinmyers',
+  'justsml',
+  'luishrd',
+  'bigknell'
+];
 
 /* Step 3: Create a function that accepts a single object as its only argument,
           Using DOM methods and properties, create a component that will return the following DOM element:
@@ -108,7 +139,7 @@ function locationP (item){
 function profileP (item){
   let p = document.createElement('p');
   let a = document.createElement('a');
-    a.setAttribute('src', item.html_url)
+    a.setAttribute('href', item.html_url)
     a.textContent = item.html_url;
   p.textContent = `Profile: `
   p.appendChild(a)
@@ -150,6 +181,7 @@ function divCard(item){
 //  Complete assembly
 function completeCard(item){
   let div = document.createElement('div');
+  div.classList.add('card')
   div.appendChild(imgElement(item))
   div.appendChild(divCard(item));
   return div;
@@ -159,7 +191,22 @@ function completeCard(item){
 
 let cards = document.querySelector('.cards');
 
-cards.appendChild(completeCard(testArray));
+// cards.appendChild(completeCard(testArray));
+
+
+//  WHAT I DID WRONG AND MY AHA MOMEMENT!!!!!! the final function needs to live within the then function not after!!!!
+
+
+let gitSources = followersArray.map( el => `https://api.github.com/users/${el}`);
+
+function getGitHubData (link){
+  axios
+  .get(link)
+  .then( res => cards.appendChild(completeCard(res.data)))
+  .catch(err => console.log(err));
+}
+
+gitSources.forEach(cV => getGitHubData(cV));
 
 
 
